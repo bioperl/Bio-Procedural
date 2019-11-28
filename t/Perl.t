@@ -81,7 +81,7 @@ SKIP: {
     # embl
 	SKIP: {
 		eval {
-			$seq_object = get_sequence('embl',"HSFOS");
+			$seq_object = get_sequence('embl',"J00522");
 		};
 		if ($@) {
 			skip("problem connecting to EMBL:$@",2);
