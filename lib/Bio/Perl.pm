@@ -1,118 +1,6 @@
-#
-# BioPerl module for Bio::Perl
-#
-# Please direct questions and support issues to <bioperl-l@bioperl.org> 
-#
-# Cared for by Ewan Birney <birney@ebi.ac.uk>
-#
-# Copyright Ewan Birney
-#
-# You may distribute this module under the same terms as perl itself
-
-# POD documentation - main docs before the code
-
-=head1 NAME
-
-Bio::Perl - Functional access to BioPerl for people who don't know objects
-
-=head1 SYNOPSIS
-
-  use Bio::Perl;
-
-  # will guess file format from extension
-  $seq_object = read_sequence($filename);
-
-  # forces genbank format
-  $seq_object = read_sequence($filename,'genbank');
-
-  # reads an array of sequences
-  @seq_object_array = read_all_sequences($filename,'fasta');
-
-  # sequences are Bio::Seq objects, so the following methods work
-  # for more info see Bio::Seq, or do 'perldoc Bio/Seq.pm'
-
-  print "Sequence name is ",$seq_object->display_id,"\n";
-  print "Sequence acc  is ",$seq_object->accession_number,"\n";
-  print "First 5 bases is ",$seq_object->subseq(1,5),"\n";
-
-  # get the whole sequence as a single string
-
-  $sequence_as_a_string = $seq_object->seq();
-
-  # writing sequences
-
-  write_sequence(">$filename",'genbank',$seq_object);
-
-  write_sequence(">$filename",'genbank',@seq_object_array);
-
-  # making a new sequence from just a string
-
-  $seq_object = new_sequence("ATTGGTTTGGGGACCCAATTTGTGTGTTATATGTA",
-      "myname","AL12232");
-
-  # getting a sequence from a database (assumes internet connection)
-
-  $seq_object = get_sequence('swissprot',"ROA1_HUMAN");
-
-  $seq_object = get_sequence('embl',"AI129902");
-
-  $seq_object = get_sequence('genbank',"AI129902");
-
-  # BLAST a sequence (assumes an internet connection)
-
-  $blast_report = blast_sequence($seq_object);
-
-  write_blast(">blast.out",$blast_report);
-
-
-=head1 DESCRIPTION
-
-Easy first time access to BioPerl via functions.
-
-=head1 FEEDBACK
-
-=head2 Mailing Lists
-
-User feedback is an integral part of the evolution of this and other
-Bioperl modules. Send your comments and suggestions preferably to one
-of the Bioperl mailing lists.  Your participation is much appreciated.
-
-  bioperl-l@bioperl.org
-
-=head2 Support 
-
-Please direct usage questions or support issues to the mailing list:
-
-I<bioperl-l@bioperl.org>
-
-rather than to the module maintainer directly. Many experienced and 
-reponsive experts will be able look at the problem and quickly 
-address it. Please include a thorough description of the problem 
-with code and data examples if at all possible.
-
-=head2 Reporting Bugs
-
-Report bugs to the Bioperl bug tracking system to help us keep track
-the bugs and their resolution. Bug reports can be submitted via the web:
-
-  https://github.com/bioperl/bioperl-live/issues
-
-=head1 AUTHOR - Ewan Birney
-
-Email birney@ebi.ac.uk
-
-=head1 APPENDIX
-
-The rest of the documentation details each of the object methods.
-Internal methods are usually preceded with a _
-
-=cut
-
-#'
-# Let the code begin...
-
 
 package Bio::Perl;
+
 use vars qw(@EXPORT @EXPORT_OK $DBOKAY);
 use strict;
 use Carp;
@@ -697,3 +585,72 @@ sub revcom_as_string {
 
 
 1;
+
+
+# ABSTRACT: Functional access to BioPerl for people who don't know objects
+# AUTHOR: Ewan Birney <birney@ebi.ac.uk>
+# OWNER: many people (see the individual modules for their copyright holders)
+# LICENSE: Perl_5
+
+=head1 SYNOPSIS
+
+  use Bio::Perl;
+
+  # will guess file format from extension
+  $seq_object = read_sequence($filename);
+
+  # forces genbank format
+  $seq_object = read_sequence($filename,'genbank');
+
+  # reads an array of sequences
+  @seq_object_array = read_all_sequences($filename,'fasta');
+
+  # sequences are Bio::Seq objects, so the following methods work
+  # for more info see Bio::Seq, or do 'perldoc Bio/Seq.pm'
+
+  print "Sequence name is ",$seq_object->display_id,"\n";
+  print "Sequence acc  is ",$seq_object->accession_number,"\n";
+  print "First 5 bases is ",$seq_object->subseq(1,5),"\n";
+
+  # get the whole sequence as a single string
+
+  $sequence_as_a_string = $seq_object->seq();
+
+  # writing sequences
+
+  write_sequence(">$filename",'genbank',$seq_object);
+
+  write_sequence(">$filename",'genbank',@seq_object_array);
+
+  # making a new sequence from just a string
+
+  $seq_object = new_sequence("ATTGGTTTGGGGACCCAATTTGTGTGTTATATGTA",
+      "myname","AL12232");
+
+  # getting a sequence from a database (assumes internet connection)
+
+  $seq_object = get_sequence('swissprot',"ROA1_HUMAN");
+
+  $seq_object = get_sequence('embl',"AI129902");
+
+  $seq_object = get_sequence('genbank',"AI129902");
+
+  # BLAST a sequence (assumes an internet connection)
+
+  $blast_report = blast_sequence($seq_object);
+
+  write_blast(">blast.out",$blast_report);
+
+
+=head1 DESCRIPTION
+
+Easy first time access to BioPerl via functions.
+
+=head1 APPENDIX
+
+The rest of the documentation details each of the object methods.
+Internal methods are usually preceded with a _
+
+=cut
+
+__END__
