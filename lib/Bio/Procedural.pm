@@ -6,7 +6,7 @@ use warnings;
 
 1;
 
-# ABSTRACT: Perl modules for biology
+# ABSTRACT: Simple low-dependency procedural interfaces to BioPerl
 # AUTHOR: See the individual modules for their authors.
 # OWNER: many people (see the individual modules for their copyright holders)
 # LICENSE: Perl_5
