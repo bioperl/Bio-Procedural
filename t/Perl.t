@@ -3,13 +3,13 @@
 
 use strict;
 
-BEGIN { 
+BEGIN {
     use lib '.';
     use Bio::Root::Test;
-    
+
     test_begin(-tests => 31,
                -requires_module => 'IO::String');
-    
+
     use_ok('Bio::Perl');
 }
 
@@ -63,7 +63,7 @@ is $trans, 'IGLGTQFVCYM';
 
 SKIP: {
     test_skip(-tests => 12, -requires_networking => 1, -requires_module => 'LWP::UserAgent');
-    
+
     # swissprot
     SKIP: {
         test_skip(-tests => 2, -requires_module => 'Data::Stag');
@@ -77,7 +77,7 @@ SKIP: {
             isa_ok $seq_object, 'Bio::SeqI';
         }
     }
-    
+
     # embl
     SKIP: {
         eval {
@@ -91,7 +91,7 @@ SKIP: {
         }
     }
 
-    # genbank   
+    # genbank
     SKIP: {
         eval {
             $seq_object = get_sequence('genbank',"AI129902");
@@ -116,7 +116,7 @@ SKIP: {
             isa_ok $seq_object, 'Bio::SeqI';
         }
     }
-    
+
     # genpept
     SKIP: {
         eval {
@@ -129,7 +129,7 @@ SKIP: {
             isa_ok $seq_object, 'Bio::SeqI';
         }
     }
-    
+
     # blast
     SKIP: {
         eval {
