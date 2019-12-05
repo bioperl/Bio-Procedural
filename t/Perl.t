@@ -1,19 +1,19 @@
-# -*-Perl-*- Test Harness script for Bioperl
-# $Id$
+#!/usr/bin/env perl
+use utf8;
 
 use strict;
+use warnings;
 
-BEGIN {
-    use lib '.';
-    use Bio::Root::Test;
+use File::Spec;
+use File::Temp;
+use Test::More;
 
-    test_begin(-tests => 31,
-               -requires_module => 'IO::String');
+use Bio::Perl;
 
-    use_ok('Bio::Perl');
+sub test_input_file {
+    return File::Spec->catfile('t', 'data', @_);
 }
 
-# Bio::Perl isn't OO so we don't see Bio::Perl->new() here
 
 my ($seq_object,$filename,$blast_report,@seq_object_array);
 
@@ -33,7 +33,7 @@ is (@seq_object_array = read_all_sequences($filename,'fasta'), 2);
 isa_ok $seq_object_array[0], 'Bio::SeqI';
 isa_ok $seq_object_array[1], 'Bio::SeqI';
 
-$filename = test_output_file();
+$filename = File::Temp->new();
 ok write_sequence(">$filename",'genbank',$seq_object);
 ok ($seq_object = new_sequence("ATTGGTTTGGGGACCCAATTTGTGTGTTATATGTA","myname","AL12232"));
 isa_ok $seq_object, 'Bio::SeqI';
@@ -58,88 +58,4 @@ ok ($trans = translate_as_string("ATTGGTTTGGGGACCCAATTTGTGTGTTATATGTA"));
 
 is $trans, 'IGLGTQFVCYM';
 
-# we need to keep tests that depend on net connection at the end
-# these now run only with BIOPERLDEBUG set
-
-SKIP: {
-    test_skip(-tests => 12, -requires_networking => 1, -requires_module => 'LWP::UserAgent');
-
-    # swissprot
-    SKIP: {
-        test_skip(-tests => 2, -requires_module => 'Data::Stag');
-        eval {
-            $seq_object = get_sequence('swissprot',"ROA1_HUMAN");
-        };
-        if ($@) {
-            skip("problem connecting to SwissProt:$@",2);
-        } else {
-            ok $seq_object;
-            isa_ok $seq_object, 'Bio::SeqI';
-        }
-    }
-
-    # embl
-    SKIP: {
-        eval {
-            $seq_object = get_sequence('embl',"J00522");
-        };
-        if ($@) {
-            skip("problem connecting to EMBL:$@",2);
-        } else {
-            ok $seq_object;
-            isa_ok $seq_object, 'Bio::SeqI';
-        }
-    }
-
-    # genbank
-    SKIP: {
-        eval {
-            $seq_object = get_sequence('genbank',"AI129902");
-        };
-        if ($@) {
-            skip("problem connecting to GenBank:$@",2);
-        } else {
-            ok $seq_object;
-            isa_ok $seq_object, 'Bio::SeqI';
-        }
-    }
-
-    # refseq
-    SKIP: {
-        eval {
-            $seq_object = get_sequence('genbank',"NM_006732");
-        };
-        if( $@ ) {
-            skip("problem connecting to RefSeq:$@",2);
-        } else {
-            ok $seq_object;
-            isa_ok $seq_object, 'Bio::SeqI';
-        }
-    }
-
-    # genpept
-    SKIP: {
-        eval {
-            $seq_object = get_sequence('genpept',"AAC06201");
-        };
-        if ($@) {
-            skip("problem connecting to RefSeq:$@",2);
-        } else {
-            ok $seq_object;
-            isa_ok $seq_object, 'Bio::SeqI';
-        }
-    }
-
-    # blast
-    SKIP: {
-        eval {
-            $blast_report = blast_sequence($seq_object, 0);
-        };
-        if ($@) {
-            skip("problem connecting to NCBI BLAST:$@",2);
-        } else {
-            ok $blast_report;
-            isa_ok $blast_report, 'Bio::Search::Result::ResultI';
-        }
-    }
-}
+done_testing();
